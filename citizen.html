@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EcoTrack | Citizen</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0b0d0c;
+            color: #f4f7f3;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 240px;
+            min-height: 100vh;
+            padding: 30px 20px;
+            background: #0f120f;
+            border-right: 1px solid #252a25;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #a8ff3e;
+        }
+
+        .label {
+            margin-top: 40px;
+            color: #626962;
+            font-size: 10px;
+            letter-spacing: 2px;
+        }
+
+        .user {
+            margin-top: 15px;
+            padding: 14px;
+            background: #151a15;
+            border: 1px solid #252b25;
+            border-radius: 12px;
+        }
+
+        .user strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .user small {
+            display: block;
+            margin-top: 5px;
+            color: #a8ff3e;
+        }
+
+        nav {
+            margin-top: 30px;
+        }
+
+        nav a {
+            display: block;
+            padding: 13px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            color: #858c85;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background: #171d17;
+            color: #a8ff3e;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            padding: 60px 7%;
+        }
+
+        .eyebrow {
+            color: #a8ff3e;
+            font-size: 10px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        h1 {
+            margin-top: 15px;
+            font-size: clamp(45px, 6vw, 75px);
+            line-height: 0.95;
+            letter-spacing: -4px;
+        }
+
+        h1 span {
+            color: #a8ff3e;
+        }
+
+        .intro {
+            margin-top: 20px;
+            color: #858c85;
+        }
+
+        /* STATS */
+
+        .stats {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .stat {
+            padding: 25px;
+            background: #121612;
+            border: 1px solid #252b25;
+            border-radius: 14px;
+        }
+
+        .stat small {
+            color: #707770;
+            letter-spacing: 1px;
+        }
+
+        .stat strong {
+            display: block;
+            margin-top: 12px;
+            font-size: 40px;
+        }
+
+        /* ACTION */
+
+        .action {
+            margin-top: 30px;
+            padding: 35px;
+            background: #a8ff3e;
+            color: #0b0d0c;
+            border-radius: 15px;
+        }
+
+        .action h2 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .action p {
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .action a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 13px 18px;
+            background: #0b0d0c;
+            color: #a8ff3e;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* REQUESTS */
+
+        .requests {
+            margin-top: 55px;
+        }
+
+        .requests h2 {
+            font-size: 30px;
+        }
+
+        .request-card {
+            margin-top: 20px;
+            padding: 25px;
+            background: #121612;
+            border: 1px solid #252b25;
+            border-radius: 14px;
+        }
+
+        .request-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* STATUS */
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 11px;
+            border-radius: 999px;
+            background: rgba(168, 255, 62, 0.08);
+            border: 1px solid rgba(168, 255, 62, 0.20);
+            color: #a8ff3e;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .request-card p {
+            color: #858c85;
+            line-height: 1.6;
+        }
+
+        .request-card p strong {
+            color: #d8ded7;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            margin-top: 20px;
+            padding: 40px;
+            text-align: center;
+            background: #121612;
+            border: 1px dashed #303730;
+            border-radius: 14px;
+            color: #737a73;
+        }
+
+        .empty h3 {
+            color: #dce2db;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                position: static;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 40px 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .request-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            h1 {
+                letter-spacing: -2px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <span>♻</span> EcoTrack
+        </div>
+
+        <div class="label">
+            CITIZEN PORTAL
+        </div>
+
+        <div class="user">
+
+            <strong>
+                {{ user["name"] }}
+            </strong>
+
+            <small>
+                ● CITIZEN
+            </small>
+
+        </div>
+
+        <nav>
+
+            <a href="{{ url_for('citizen') }}" class="active">
+                ◉ Dashboard
+            </a>
+
+            <a href="{{ url_for('citizen_request') }}">
+                ♻ Request Pickup
+            </a>
+
+            <!-- FIXED MY REQUESTS LINK -->
+
+            <a href="{{ url_for('citizen_requests') }}">
+                ▣ My Requests
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                ↪ Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="eyebrow">
+            CITIZEN DASHBOARD
+        </div>
+
+        <h1>
+
+            Welcome back,<br>
+
+            <span>
+                {{ user["name"] }}
+            </span>
+
+        </h1>
+
+        <p class="intro">
+            Keep your community clean, one pickup at a time.
+        </p>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <small>
+                    TOTAL REQUESTS
+                </small>
+
+                <strong>
+                    {{ total }}
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <small>
+                    ACTIVE
+                </small>
+
+                <strong>
+                    {{ active }}
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <small>
+                    COMPLETED
+                </small>
+
+                <strong>
+                    {{ completed }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- REQUEST PICKUP -->
+
+        <div class="action">
+
+            <h2>
+                Have waste to collect?
+            </h2>
+
+            <p>
+                Request a pickup and we'll connect your request
+                with the nearest available collector.
+            </p>
+
+            <a href="{{ url_for('citizen_request') }}">
+                Request a pickup →
+            </a>
+
+        </div>
+
+
+        <!-- RECENT ACTIVITY -->
+
+        <section class="requests">
+
+            <div class="eyebrow">
+                RECENT ACTIVITY
+            </div>
+
+            <h2>
+                My Requests
+            </h2>
+
+
+            {% if requests %}
+
+                {% for row in requests[:5] %}
+
+                <div class="request-card">
+
+                    <div class="request-top">
+
+                        <strong>
+                            Request #{{ row["id"] }}
+                        </strong>
+
+
+                        <span class="status">
+
+                            {% if row["request_status"] == "Completed" %}
+
+                                ✓ Completed
+
+                            {% elif row["request_status"] == "Assigned" %}
+
+                                ● Assigned
+
+                            {% elif row["request_status"] == "Pending" %}
+
+                                ◷ Pending
+
+                            {% else %}
+
+                                {{ row["request_status"] }}
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+
+                    <p>
+
+                        <strong>
+                            Waste type:
+                        </strong>
+
+                        {{ row["waste_type"] }}
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Location:
+                        </strong>
+
+                        {{ row["lat"] }},
+                        {{ row["lon"] }}
+
+                    </p>
+
+
+                    {% if row["collector_name"] %}
+
+                    <p>
+
+                        <strong>
+                            Collector:
+                        </strong>
+
+                        {{ row["collector_name"] }}
+
+                    </p>
+
+                    {% else %}
+
+                    <p>
+
+                        <strong>
+                            Collector:
+                        </strong>
+
+                        Not assigned yet
+
+                    </p>
+
+                    {% endif %}
+
+
+                </div>
+
+                {% endfor %}
+
+
+            {% else %}
+
+                <div class="empty">
+
+                    <h3>
+                        No pickup requests yet
+                    </h3>
+
+                    <p>
+                        Your pickup requests will appear here.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

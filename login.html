@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EcoTrack | Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div style="
+        max-width: 450px;
+        margin: 100px auto;
+        padding: 40px;
+    ">
+
+        <div class="badge">
+            EcoTrack ACCOUNT
+        </div>
+
+        <h1 style="margin-top: 20px;">
+            Welcome back.
+        </h1>
+
+        <p style="margin-top: 15px; color: #9da39d;">
+            Log in to your EcoTrack account.
+        </p>
+
+        {% if error %}
+            <p style="color: #ff6b6b; margin-top: 20px;">
+                {{ error }}
+            </p>
+        {% endif %}
+
+        <form method="POST" action="/login" style="margin-top: 35px;">
+
+            <label for="email">
+                Email
+            </label>
+
+            <input
+                id="email"
+                type="email"
+                name="email"
+                required
+                style="
+                    width: 100%;
+                    padding: 15px;
+                    margin: 10px 0 20px;
+                    background: #121612;
+                    border: 1px solid #303630;
+                    color: white;
+                "
+            >
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                name="password"
+                required
+                style="
+                    width: 100%;
+                    padding: 15px;
+                    margin: 10px 0 25px;
+                    background: #121612;
+                    border: 1px solid #303630;
+                    color: white;
+                "
+            >
+
+            <button
+                type="submit"
+                class="primary-btn"
+                style="border: none; cursor: pointer;"
+            >
+                Log in →
+            </button>
+
+        </form>
+
+        <p style="margin-top: 30px;">
+            <a href="/">← Back to home</a>
+        </p>
+
+    </div>
+
+</body>
+</html>

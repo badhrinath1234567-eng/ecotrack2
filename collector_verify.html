@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Verify Collection | EcoTrack</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#080b09;color:#f3f6f1;font-family:Arial,sans-serif}
+.page{max-width:850px;margin:auto;padding:45px 25px}.back{display:inline-block;margin-bottom:30px;color:#a8ff3e;text-decoration:none;font-size:13px}
+.label{color:#a8ff3e;font-size:10px;font-weight:bold;letter-spacing:2px;text-transform:uppercase}
+h1{margin:8px 0;font-size:45px;letter-spacing:-2px}.subtitle{color:#7d867d;margin-bottom:35px}
+.verify-card{padding:28px;background:#111611;border:1px solid #283028;border-radius:14px}
+.verify-card h2{margin-top:0}.verify-card>p{color:#737c73;font-size:12px;margin-bottom:25px}
+.request{padding:17px;margin-bottom:12px;background:#0b0f0c;border:1px solid #252d25;border-radius:10px}
+.request-top{display:flex;justify-content:space-between;gap:15px}.request h3{margin:0 0 5px;font-size:16px}
+.request-id{color:#697269;font-size:10px}.status{height:fit-content;padding:5px 9px;border-radius:999px;color:#a8ff3e;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.18);font-size:9px;font-weight:bold}
+.address{margin-top:12px;color:#8b948a;font-size:11px}
+form{margin-top:16px}button{width:100%;min-height:42px;border:0;border-radius:8px;background:#a8ff3e;color:#081006;font-size:11px;font-weight:800;cursor:pointer}
+button:hover{filter:brightness(1.08)}.empty{padding:55px 20px;text-align:center;background:#101510;border:1px dashed #303830;border-radius:13px}
+.empty h2{margin-bottom:8px}.empty p{color:#737c73;font-size:13px}
+</style>
+</head>
+<body>
+<div class="page">
+<a href="{{ url_for('collector') }}" class="back">← Back to Dashboard</a>
+<div class="label">Collector Control</div>
+<h1>Verify Collection</h1>
+<p class="subtitle">Confirm that assigned waste has been collected.</p>
+<div class="verify-card">
+<h2>Pending Collections</h2>
+<p>Select a request after the waste has been collected.</p>
+{% if requests %}
+{% for request in requests %}
+{% if request["request_status"] != "Completed" %}
+<div class="request">
+<div class="request-top">
+<div>
+<h3>{{ request["waste_type"] }}</h3>
+<div class="request-id">Request #{{ request["id"] }}</div>
+</div>
+<div class="status">{{ request["request_status"] }}</div>
+</div>
+<div class="address">📍 {{ request["address"] }}</div>
+<form method="POST" action="{{ url_for('complete_request', request_id=request['id']) }}">
+<button type="submit">✓ Mark Collection Completed</button>
+</form>
+</div>
+{% endif %}
+{% endfor %}
+{% else %}
+<div class="empty"><h2>Nothing to Verify</h2><p>There are currently no pending collections.</p></div>
+{% endif %}
+</div>
+</div>
+</body>
+</html>

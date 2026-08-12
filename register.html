@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EcoTrack | Create Account</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #0b0d0c;
+            color: #f4f7f3;
+            font-family: Arial, Helvetica, sans-serif;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .logo span {
+            color: #a8ff3e;
+        }
+
+        .card {
+            background: #121612;
+            border: 1px solid #292f29;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .eyebrow {
+            color: #a8ff3e;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 38px;
+            letter-spacing: -2px;
+        }
+
+        .subtitle {
+            color: #7d857d;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-top: 12px;
+            margin-bottom: 30px;
+        }
+
+        .error {
+            background: rgba(255, 70, 70, 0.08);
+            border: 1px solid rgba(255, 70, 70, 0.35);
+            color: #ff8c8c;
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b9c0b9;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px 15px;
+
+            background: #0d100d;
+            color: #f4f7f3;
+
+            border: 1px solid #303730;
+            border-radius: 8px;
+
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #a8ff3e;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        /* LOCATION */
+
+        .location-title {
+            margin-top: 28px;
+            margin-bottom: 15px;
+
+            color: #a8ff3e;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .location-box {
+            padding: 20px;
+
+            background: #0d100d;
+            border: 1px solid #303730;
+            border-radius: 12px;
+        }
+
+        .location-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            margin-bottom: 8px;
+        }
+
+        .location-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(168, 255, 62, 0.10);
+            border-radius: 8px;
+
+            color: #a8ff3e;
+            font-size: 18px;
+        }
+
+        .location-heading strong {
+            color: #e8eee6;
+            font-size: 13px;
+        }
+
+        .location-description {
+            margin: 0 0 15px;
+
+            color: #687068;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .location-button {
+            width: 100%;
+            padding: 14px;
+
+            background: transparent;
+            color: #a8ff3e;
+
+            border: 1px solid #a8ff3e;
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .location-button:hover {
+            background: #a8ff3e;
+            color: #0b0d0c;
+        }
+
+        .location-button:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+
+        .location-status {
+            display: none;
+
+            margin-top: 12px;
+            padding: 11px;
+
+            border-radius: 8px;
+
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .location-status.success {
+            display: block;
+
+            background: rgba(168, 255, 62, 0.08);
+            border: 1px solid rgba(168, 255, 62, 0.20);
+
+            color: #a8ff3e;
+        }
+
+        .location-status.error {
+            display: block;
+
+            background: #351b1b;
+            border: 1px solid rgba(255, 70, 70, 0.25);
+
+            color: #ff7777;
+        }
+
+        .location-status.loading {
+            display: block;
+
+            background: #171b17;
+            border: 1px solid #303730;
+
+            color: #b9c0b9;
+        }
+
+        .location-help {
+            margin-top: 10px;
+
+            color: #687068;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        /* SUBMIT */
+
+        .button {
+            width: 100%;
+            margin-top: 25px;
+
+            padding: 15px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #a8ff3e;
+            color: #0b0d0c;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .button:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+
+        .button:disabled {
+            background: #4b5548;
+            color: #8a9387;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .bottom {
+            margin-top: 25px;
+            text-align: center;
+
+            color: #707870;
+            font-size: 13px;
+        }
+
+        .bottom a {
+            color: #a8ff3e;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .bottom a:hover {
+            text-decoration: underline;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+
+            color: #656c65;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .back:hover {
+            color: #a8ff3e;
+        }
+
+        @media (max-width: 520px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- LOGO -->
+
+    <div class="logo">
+        <span>♻</span> EcoTrack
+    </div>
+
+
+    <!-- REGISTER CARD -->
+
+    <div class="card">
+
+        <div class="eyebrow">
+            JOIN ECOTRACK
+        </div>
+
+
+        <h1>
+            Create account.
+        </h1>
+
+
+        <p class="subtitle">
+            Create your EcoCycle account and help make
+            waste collection smarter and cleaner.
+        </p>
+
+
+        <!-- ERROR MESSAGE -->
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <!-- REGISTRATION FORM -->
+
+        <form
+            method="POST"
+            action="{{ url_for('register') }}"
+            id="registerForm"
+        >
+
+
+            <!-- NAME -->
+
+            <div class="field">
+
+                <label for="name">
+                    FULL NAME
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="field">
+
+                <label for="email">
+                    EMAIL
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="field">
+
+                <label for="password">
+                    PASSWORD
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="At least 6 characters"
+                    autocomplete="new-password"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ACCOUNT TYPE -->
+
+            <div class="field">
+
+                <label for="user_type">
+                    ACCOUNT TYPE
+                </label>
+
+                <select
+                    id="user_type"
+                    name="user_type"
+                    required
+                >
+
+                    <option value="Citizen">
+                        Citizen
+                    </option>
+
+                    <option value="Collector">
+                        Collector
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="location-title">
+                LOCATION
+            </div>
+
+
+            <div class="location-box">
+
+                <div class="location-heading">
+
+                    <div class="location-icon">
+                        📍
+                    </div>
+
+                    <strong>
+                        Use my current location
+                    </strong>
+
+                </div>
+
+
+                <p class="location-description">
+                    EcoCycle uses your location to help connect
+                    you with nearby waste collection services.
+                </p>
+
+
+                <button
+                    type="button"
+                    class="location-button"
+                    id="locationButton"
+                >
+                    📍 Allow & Detect My Location
+                </button>
+
+
+                <div
+                    id="locationStatus"
+                    class="location-status"
+                ></div>
+
+
+                <div class="location-help">
+                    Your browser will ask for permission before
+                    sharing your location with EcoTrack.
+                </div>
+
+            </div>
+
+
+            <!-- HIDDEN LOCATION VALUES -->
+
+            <input
+                type="hidden"
+                name="lat"
+                id="lat"
+                value=""
+            >
+
+            <input
+                type="hidden"
+                name="lon"
+                id="lon"
+                value=""
+            >
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="button"
+                id="registerButton"
+                disabled
+            >
+                Create Account →
+            </button>
+
+
+        </form>
+
+
+        <!-- LOGIN -->
+
+        <div class="bottom">
+
+            Already have an account?
+
+            <a href="{{ url_for('login') }}">
+                Log in
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- BACK -->
+
+    <a
+        href="{{ url_for('home') }}"
+        class="back"
+    >
+        ← Back to EcoTrack
+    </a>
+
+</div>
+
+
+<script>
+
+    const locationButton =
+        document.getElementById("locationButton");
+
+    const locationStatus =
+        document.getElementById("locationStatus");
+
+    const registerButton =
+        document.getElementById("registerButton");
+
+    const latInput =
+        document.getElementById("lat");
+
+    const lonInput =
+        document.getElementById("lon");
+
+    const registerForm =
+        document.getElementById("registerForm");
+
+
+    function showLocationStatus(message, type) {
+
+        locationStatus.textContent = message;
+
+        locationStatus.className =
+            "location-status " + type;
+    }
+
+
+    function detectLocation() {
+
+        if (!navigator.geolocation) {
+
+            showLocationStatus(
+                "Your browser does not support location detection. Please use a browser with location support.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        locationButton.disabled = true;
+
+        locationButton.textContent =
+            "⌛ Detecting your location...";
+
+
+        showLocationStatus(
+            "Please allow location access when your browser asks.",
+            "loading"
+        );
+
+
+        navigator.geolocation.getCurrentPosition(
+
+            function(position) {
+
+                const latitude =
+                    position.coords.latitude;
+
+                const longitude =
+                    position.coords.longitude;
+
+
+                latInput.value =
+                    latitude.toFixed(6);
+
+                lonInput.value =
+                    longitude.toFixed(6);
+
+
+                showLocationStatus(
+                    "✓ Location detected successfully. Your location is ready.",
+                    "success"
+                );
+
+
+                locationButton.disabled = false;
+
+                locationButton.textContent =
+                    "✓ Location Detected";
+
+
+                registerButton.disabled = false;
+
+            },
+
+
+            function(error) {
+
+                locationButton.disabled = false;
+
+                locationButton.textContent =
+                    "📍 Allow & Detect My Location";
+
+
+                registerButton.disabled = true;
+
+
+                if (error.code === 1) {
+
+                    showLocationStatus(
+                        "Location permission was denied. Please allow location access in your browser and try again.",
+                        "error"
+                    );
+
+                }
+                else if (error.code === 2) {
+
+                    showLocationStatus(
+                        "Your location could not be determined. Please try again.",
+                        "error"
+                    );
+
+                }
+                else if (error.code === 3) {
+
+                    showLocationStatus(
+                        "Location detection took too long. Please try again.",
+                        "error"
+                    );
+
+                }
+                else {
+
+                    showLocationStatus(
+                        "Unable to detect your location. Please try again.",
+                        "error"
+                    );
+
+                }
+
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 15000,
+                maximumAge: 0
+            }
+
+        );
+
+    }
+
+
+    locationButton.addEventListener(
+        "click",
+        detectLocation
+    );
+
+
+    registerForm.addEventListener(
+        "submit",
+        function(event) {
+
+            if (
+                !latInput.value ||
+                !lonInput.value
+            ) {
+
+                event.preventDefault();
+
+                showLocationStatus(
+                    "Please allow Ecotrack to detect your current location before creating your account.",
+                    "error"
+                );
+
+                return;
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>

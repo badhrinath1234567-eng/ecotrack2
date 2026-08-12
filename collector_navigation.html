@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EcoTrack</title>
+<style>
+body{margin:0;background:#080b09;color:#f3f6f1;font-family:Arial,sans-serif}
+main{max-width:1000px;margin:auto;padding:40px 24px}
+a{color:#a8ff3e;text-decoration:none}
+.card{margin-top:25px;padding:24px;background:#111611;border:1px solid #283028;border-radius:14px}
+</style>
+</head>
+<body>
+<main>
+<a href="{{ url_for('collector') }}">← Back to Dashboard</a>
+<div class="card">
+<h1>Collector Navigation</h1>
+<p>EcoCycle Collector page.</p>
+{% if requests %}
+{% for request in requests %}
+<div class="card">
+<strong>Request #{{ request["id"] }}</strong><br>
+Status: {{ request["request_status"] }}
+</div>
+{% endfor %}
+{% else %}
+<p>No requests available.</p>
+{% endif %}
+</div>
+</main>
+</body>
+</html>

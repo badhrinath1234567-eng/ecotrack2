@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EcoTrack | Request Pickup</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0b0d0c;
+            color: #f4f7f3;
+            font-family: Arial, sans-serif;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 70px 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 600px;
+            padding: 45px;
+            background: #121612;
+            border: 1px solid #292f29;
+            border-radius: 18px;
+        }
+
+        .badge {
+            color: #a8ff3e;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            margin: 18px 0 10px;
+            font-size: 46px;
+            letter-spacing: -3px;
+        }
+
+        .subtitle {
+            color: #858c85;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px;
+            background: #0b0d0c;
+            color: white;
+            border: 1px solid #303630;
+            border-radius: 8px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #a8ff3e;
+        }
+
+        /* LOCATION */
+
+        .location-box {
+            margin-top: 10px;
+            padding: 20px;
+            background: #0b0f0c;
+            border: 1px solid #303630;
+            border-radius: 12px;
+        }
+
+        .location-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .location-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(168, 255, 62, 0.10);
+            border-radius: 8px;
+
+            color: #a8ff3e;
+            font-size: 18px;
+        }
+
+        .location-heading strong {
+            font-size: 14px;
+        }
+
+        .location-description {
+            margin: 0 0 15px;
+            color: #737b73;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .location-button {
+            width: 100%;
+            padding: 14px;
+
+            background: transparent;
+            color: #a8ff3e;
+
+            border: 1px solid #a8ff3e;
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .location-button:hover {
+            background: #a8ff3e;
+            color: #0b0d0c;
+        }
+
+        .location-button:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+
+        .location-status {
+            display: none;
+            margin-top: 12px;
+            padding: 11px;
+            border-radius: 8px;
+
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .location-status.success {
+            display: block;
+            background: rgba(168, 255, 62, 0.08);
+            border: 1px solid rgba(168, 255, 62, 0.20);
+            color: #a8ff3e;
+        }
+
+        .location-status.error {
+            display: block;
+            background: #351b1b;
+            border: 1px solid rgba(255, 70, 70, 0.25);
+            color: #ff7777;
+        }
+
+        .location-status.loading {
+            display: block;
+            background: #171b17;
+            border: 1px solid #303630;
+            color: #b9c0b9;
+        }
+
+        .permission-note {
+            margin-top: 12px;
+            color: #626962;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        /* SUBMIT */
+
+        .submit-button {
+            width: 100%;
+            margin-top: 30px;
+            padding: 15px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #a8ff3e;
+            color: #0b0d0c;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            filter: brightness(1.08);
+        }
+
+        .submit-button:disabled {
+            background: #4b5548;
+            color: #8a9387;
+            cursor: not-allowed;
+        }
+
+        .back {
+            display: block;
+            margin-top: 22px;
+            text-align: center;
+
+            color: #a8ff3e;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .error {
+            margin-top: 20px;
+            padding: 12px;
+
+            background: #351b1b;
+            color: #ff7777;
+
+            border-radius: 8px;
+        }
+
+        @media (max-width: 600px) {
+
+            .card {
+                padding: 30px 22px;
+            }
+
+            h1 {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<div class="page">
+
+    <div class="card">
+
+        <div class="badge">
+            EcoTrack PICKUP
+        </div>
+
+
+        <h1>
+            Request a pickup.
+        </h1>
+
+
+        <p class="subtitle">
+            Tell us what needs collecting and where to find it.
+        </p>
+
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            action="{{ url_for('citizen_request') }}"
+            id="pickupForm"
+        >
+
+
+            <!-- WASTE TYPE -->
+
+            <label for="waste_type">
+                What type of waste?
+            </label>
+
+
+            <select
+                id="waste_type"
+                name="waste_type"
+                required
+            >
+
+                <option value="">
+                    Select waste type
+                </option>
+
+                <option value="Organic">
+                    Organic
+                </option>
+
+                <option value="Plastic">
+                    Plastic
+                </option>
+
+                <option value="Paper">
+                    Paper
+                </option>
+
+                <option value="Glass">
+                    Glass
+                </option>
+
+                <option value="Metal">
+                    Metal
+                </option>
+
+                <option value="E-Waste">
+                    E-Waste
+                </option>
+
+                <option value="Mixed">
+                    Mixed Waste
+                </option>
+
+            </select>
+
+
+            <!-- LOCATION -->
+
+            <label>
+                Pickup location
+            </label>
+
+
+            <div class="location-box">
+
+                <div class="location-heading">
+
+                    <div class="location-icon">
+                        📍
+                    </div>
+
+                    <strong>
+                        Use my current location
+                    </strong>
+
+                </div>
+
+
+                <p class="location-description">
+                    EcoCycle needs your location so the
+                    collector knows exactly where to pick up
+                    your waste.
+                </p>
+
+
+                <button
+                    type="button"
+                    class="location-button"
+                    id="locationButton"
+                >
+                    📍 Allow & Detect My Location
+                </button>
+
+
+                <div
+                    id="locationStatus"
+                    class="location-status"
+                ></div>
+
+
+                <p class="permission-note">
+                    Your browser will ask for permission before
+                    sharing your location with EcoCycle.
+                </p>
+
+            </div>
+
+
+            <!-- HIDDEN COORDINATES -->
+
+            <input
+                type="hidden"
+                id="lat"
+                name="lat"
+                value=""
+            >
+
+            <input
+                type="hidden"
+                id="lon"
+                name="lon"
+                value=""
+            >
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="submit-button"
+                id="submitButton"
+                disabled
+            >
+                Request Pickup →
+            </button>
+
+        </form>
+
+
+        <a
+            class="back"
+            href="{{ url_for('citizen') }}"
+        >
+            ← Back to dashboard
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const locationButton =
+        document.getElementById("locationButton");
+
+    const locationStatus =
+        document.getElementById("locationStatus");
+
+    const submitButton =
+        document.getElementById("submitButton");
+
+    const latInput =
+        document.getElementById("lat");
+
+    const lonInput =
+        document.getElementById("lon");
+
+    const pickupForm =
+        document.getElementById("pickupForm");
+
+
+    function showStatus(message, type) {
+
+        locationStatus.textContent = message;
+
+        locationStatus.className =
+            "location-status " + type;
+    }
+
+
+    function detectLocation() {
+
+        if (!navigator.geolocation) {
+
+            showStatus(
+                "Your browser does not support location detection.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        locationButton.disabled = true;
+
+        locationButton.textContent =
+            "⌛ Detecting your location...";
+
+
+        showStatus(
+            "Please allow location access when your browser asks.",
+            "loading"
+        );
+
+
+        navigator.geolocation.getCurrentPosition(
+
+            function(position) {
+
+                const latitude =
+                    position.coords.latitude;
+
+                const longitude =
+                    position.coords.longitude;
+
+
+                latInput.value =
+                    latitude.toFixed(6);
+
+                lonInput.value =
+                    longitude.toFixed(6);
+
+
+                console.log(
+                    "EcoCycle latitude:",
+                    latInput.value
+                );
+
+                console.log(
+                    "EcoCycle longitude:",
+                    lonInput.value
+                );
+
+
+                showStatus(
+                    "✓ Location detected successfully. Your pickup location is ready.",
+                    "success"
+                );
+
+
+                locationButton.disabled = false;
+
+                locationButton.textContent =
+                    "✓ Location Detected";
+
+
+                submitButton.disabled = false;
+
+            },
+
+
+            function(error) {
+
+                locationButton.disabled = false;
+
+                locationButton.textContent =
+                    "📍 Allow & Detect My Location";
+
+
+                submitButton.disabled = true;
+
+
+                if (error.code === 1) {
+
+                    showStatus(
+                        "Location permission was denied. Please allow location access in your browser and try again.",
+                        "error"
+                    );
+
+                }
+                else if (error.code === 2) {
+
+                    showStatus(
+                        "Your location could not be determined. Please try again.",
+                        "error"
+                    );
+
+                }
+                else if (error.code === 3) {
+
+                    showStatus(
+                        "Location detection took too long. Please try again.",
+                        "error"
+                    );
+
+                }
+                else {
+
+                    showStatus(
+                        "Unable to detect your location. Please try again.",
+                        "error"
+                    );
+
+                }
+
+            },
+
+
+            {
+                enableHighAccuracy: true,
+                timeout: 15000,
+                maximumAge: 0
+            }
+
+        );
+
+    }
+
+
+    locationButton.addEventListener(
+        "click",
+        detectLocation
+    );
+
+
+    pickupForm.addEventListener(
+        "submit",
+        function(event) {
+
+            if (
+                !latInput.value ||
+                !lonInput.value
+            ) {
+
+                event.preventDefault();
+
+                showStatus(
+                    "Please allow EcoTrack to detect your current location before requesting a pickup.",
+                    "error"
+                );
+
+                return;
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>
